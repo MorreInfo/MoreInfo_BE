@@ -6,6 +6,7 @@
 
 	<modules>
 		<module>moreinfo-ebook</module>
+		<module>moreinfo-article</module>
 	</modules>
 
 	<groupId>cn.edu.fudan</groupId>
