@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan(basePackages = {"cn.edu.fudan.moreinfo.dao"})
+@MapperScan(basePackages = {"cn.edu.fudan.moreinfo.ebook.dao"})
 public class MoreInfoEbookApplication {
 
 	public static void main(String[] args) {
