@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@RestController("/user/")
+@RestController
+@RequestMapping("/user/")
 public class MemberController {
 
   @Autowired
@@ -29,8 +29,7 @@ public class MemberController {
    * @param session
    * @return
    */
-  @RequestMapping(value = "login.do", method = RequestMethod.POST)
-  @ResponseBody
+  @RequestMapping(value = "login", method = RequestMethod.POST)
   public ServerResponse<Member> login(String membername, String password, HttpSession session){
     //service-->mybathis-->dao
     ServerResponse<Member> response = memberService.login(membername, password);
@@ -45,8 +44,7 @@ public class MemberController {
    * @param session
    * @return
    */
-  @RequestMapping(value = "logout.do", method =  RequestMethod.GET)
-  @ResponseBody
+  @RequestMapping(value = "logout", method =  RequestMethod.GET)
   public ServerResponse<String> logout(HttpSession session){
     session.removeAttribute(Const.CURRENT_USER);
     return ServerResponse.createBySuccess();
@@ -54,13 +52,22 @@ public class MemberController {
 
   /**
    * 创建用户
-   * @param member
+   * @param memberName
+   * @param nickName
+   * @param password
+   * @param email
+   * @param sex
+   * @param age
+   * @param address
+   * @param question
+   * @param answer
    * @return
    */
-  @RequestMapping(value = "register.do", method =  RequestMethod.GET)
-  @ResponseBody
-  public ServerResponse<String> register(Member member){
-    return memberService.register(member);
+  @RequestMapping(value = "register", method =  RequestMethod.POST)
+  public ServerResponse<String> register(String memberName, String nickName, String password, String email, int sex, int age, String address,
+      String question, String answer){
+    return memberService.register(memberName, nickName, password, email, sex, age, address,
+        question, answer);
   }
 
   /**
@@ -69,8 +76,7 @@ public class MemberController {
    * @param type
    * @return
    */
-  @RequestMapping(value = "check_valid.do", method = RequestMethod.GET)
-  @ResponseBody
+  @RequestMapping(value = "check_valid", method = RequestMethod.GET)
   public ServerResponse<String> checkVaild(String str, String type){
     return memberService.checkVaild(str, type);
   }
@@ -80,6 +86,7 @@ public class MemberController {
    * @param session
    * @return
    */
+  @RequestMapping(value = "get_member_info", method = RequestMethod.GET)
   public ServerResponse<Member> getMemberInfo(HttpSession session){
     Member member = (Member) session.getAttribute(Const.CURRENT_USER);
     if(member != null){
@@ -88,31 +95,54 @@ public class MemberController {
     return ServerResponse.createByErrorMessage("用户未登录，无法获取当前用户信息");
   }
 
-  @RequestMapping(value = "forget_get_question.do", method = RequestMethod.GET)
-  @ResponseBody
+  /**
+   * 找回问题
+   * @param membername
+   * @return
+   */
+  @RequestMapping(value = "forget_get_question", method = RequestMethod.GET)
   public ServerResponse<String> forgetGetQuestion(String membername){
     return memberService.selecrtQuestion(membername);
   }
 
-  @RequestMapping(value = "forget_check_answer.do", method = RequestMethod.GET)
-  @ResponseBody
+  /**
+   * 检查问题答案是否正确
+   * @param membername
+   * @param question
+   * @param answer
+   * @return
+   */
+  @RequestMapping(value = "forget_check_answer", method = RequestMethod.POST)
   public ServerResponse<String> forgetCheckAnswer(String membername, String question, String answer){
     return memberService.checkAnswer(membername,question,answer);
   }
 
-  @RequestMapping(value = "forget_reset_password.do", method = RequestMethod.GET)
-  @ResponseBody
+  /**
+   * 未登录重置密码
+   * @param membername
+   * @param passwordNew
+   * @param forgetToken
+   * @return
+   */
+  @RequestMapping(value = "forget_reset_password", method = RequestMethod.GET)
   public ServerResponse<String> forgetResetPassword(String membername, String passwordNew, String forgetToken){
     return memberService.forgetRestPassword(membername,passwordNew,forgetToken);
   }
 
+  /**
+   * 登录后重置密码
+   * @param session
+   * @param passwordOld
+   * @param passwordNew
+   * @return
+   */
   @RequestMapping(value = "reset_password.do", method = RequestMethod.GET)
-  @ResponseBody
-  public ServerResponse<String> resetPassword(HttpSession session, String passworOld, String passwordNew){
+  public ServerResponse<String> resetPassword(HttpSession session, String passwordOld, String passwordNew){
+    //检查重置密码的用户是否为当前用户
     Member member = (Member) session.getAttribute(Const.CURRENT_USER);
     if(member == null){
       return ServerResponse.createByErrorMessage("用户未登录");
     }
-    return memberService.resetPassword(passworOld, passwordNew, member);
+    return memberService.resetPassword(passwordOld, passwordNew, member);
   }
 }

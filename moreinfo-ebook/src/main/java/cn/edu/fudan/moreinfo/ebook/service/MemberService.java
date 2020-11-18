@@ -22,7 +22,8 @@ public interface MemberService {
   Integer updateByMember(Member member);
 
   ServerResponse<Member> login(String membername, String password);
-  ServerResponse<String> register(Member member);
+  ServerResponse<String> register(String membername, String nickname, String password, String email, int sex, int age, String address,
+      String question, String answer);
 
   ServerResponse<String> checkVaild(String str, String type);
   ServerResponse<String> selecrtQuestion(String username);
