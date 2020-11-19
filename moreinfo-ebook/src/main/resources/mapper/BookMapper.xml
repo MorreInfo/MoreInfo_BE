@@ -9,13 +9,13 @@
     <result column="intruduction" property="intruduction" jdbcType="VARCHAR" />
     <result column="publicationID" property="publicationid" jdbcType="INTEGER" />
     <result column="authorID" property="authorid" jdbcType="INTEGER" />
-    <result column="paageNum" property="paagenum" jdbcType="INTEGER" />
+    <result column="pagenum" property="pagenum" jdbcType="INTEGER" />
     <result column="salePrice" property="saleprice" jdbcType="DECIMAL" />
     <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
     <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ISBN, bookName, category, version, intruduction, publicationID, authorID, paageNum, 
+    ISBN, bookName, category, version, intruduction, publicationID, authorID, pagenum,
     salePrice, createTime, updateTime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -31,12 +31,19 @@
   <insert id="insert" parameterType="cn.edu.fudan.moreinfo.ebook.entity.Book" >
     insert into book (ISBN, bookName, category, 
       version, intruduction, publicationID, 
-      authorID, paageNum, salePrice, 
+      authorID, pagenum, salePrice,
       createTime, updateTime)
     values (#{isbn,jdbcType=CHAR}, #{bookname,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR}, 
       #{version,jdbcType=INTEGER}, #{intruduction,jdbcType=VARCHAR}, #{publicationid,jdbcType=INTEGER}, 
-      #{authorid,jdbcType=INTEGER}, #{paagenum,jdbcType=INTEGER}, #{saleprice,jdbcType=DECIMAL}, 
+      #{authorid,jdbcType=INTEGER}, #{pagenum,jdbcType=INTEGER}, #{saleprice,jdbcType=DECIMAL},
       #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertBook" parameterType="map">
+    insert into book(ISBN, bookName, category,
+      version, publicationID,
+      authorID, pagenum, salePrice)
+    values (#{isbn}, #{bookname}, #{category}, #{version}, #{publicationid}, #{authorid},
+    #{pagenum}, #{saleprice})
   </insert>
   <insert id="insertSelective" parameterType="cn.edu.fudan.moreinfo.ebook.entity.Book" >
     insert into book
@@ -62,8 +69,8 @@
       <if test="authorid != null" >
         authorID,
       </if>
-      <if test="paagenum != null" >
-        paageNum,
+      <if test="pagenum != null" >
+        pagenum,
       </if>
       <if test="saleprice != null" >
         salePrice,
@@ -97,8 +104,8 @@
       <if test="authorid != null" >
         #{authorid,jdbcType=INTEGER},
       </if>
-      <if test="paagenum != null" >
-        #{paagenum,jdbcType=INTEGER},
+      <if test="pagenum != null" >
+        #{pagenum,jdbcType=INTEGER},
       </if>
       <if test="saleprice != null" >
         #{saleprice,jdbcType=DECIMAL},
@@ -132,8 +139,8 @@
       <if test="authorid != null" >
         authorID = #{authorid,jdbcType=INTEGER},
       </if>
-      <if test="paagenum != null" >
-        paageNum = #{paagenum,jdbcType=INTEGER},
+      <if test="pagenum != null" >
+        pagenum = #{pagenum,jdbcType=INTEGER},
       </if>
       <if test="saleprice != null" >
         salePrice = #{saleprice,jdbcType=DECIMAL},
@@ -155,10 +162,28 @@
       intruduction = #{intruduction,jdbcType=VARCHAR},
       publicationID = #{publicationid,jdbcType=INTEGER},
       authorID = #{authorid,jdbcType=INTEGER},
-      paageNum = #{paagenum,jdbcType=INTEGER},
+      pagenum = #{pagenum,jdbcType=INTEGER},
       salePrice = #{saleprice,jdbcType=DECIMAL},
       createTime = #{createtime,jdbcType=TIMESTAMP},
       updateTime = #{updatetime,jdbcType=TIMESTAMP}
     where ISBN = #{isbn,jdbcType=CHAR}
   </update>
+  <select id="checkISBN" parameterType="String" resultType="java.lang.Integer">
+    select
+    count(*)
+    from book
+    where ISBN = #{isbn}
+  </select>
+  <select id="checkBookname" parameterType="String" resultType="java.lang.Integer">
+    select
+    count(*)
+    from book
+    where bookName = #{bookname}
+  </select>
+  <select id="selectByBookname" resultType="java.lang.String" parameterType="java.lang.String">
+    select
+    isbn
+    from book
+    where bookName = #{bookname}
+  </select>
 </mapper>

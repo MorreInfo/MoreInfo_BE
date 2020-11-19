@@ -76,20 +76,21 @@ public class MemberServiceImpl implements MemberService{
   }
 
   @Override
-  public ServerResponse<String> register(String memberName, String nickName, String password, String email, int sex, int age, String address,
-      String question, String answer) {
-    ServerResponse validResponse = this.checkVaild(memberName, Const.USERNAME);
+  public ServerResponse<String> register(Member member) {
+    ServerResponse validResponse = this.checkVaild(member.getMembername(), Const.USERNAME);
     if(!validResponse.isSuccess()){
       return validResponse;
     }
-    validResponse = this.checkVaild(email,Const.EMAIL);
+    validResponse = this.checkVaild(member.getEmail(),Const.EMAIL);
     if(!validResponse.isSuccess()){
       return validResponse;
     }
     //MD5加密
-    String md5password = MD5Utils.MD5EncodeUtf8(password);
+    String md5password = MD5Utils.MD5EncodeUtf8(member.getpassword());
 
-    int resID = memberMapper.insertMember(memberName, nickName, md5password, email, sex, age, address, question, answer);
+    int resID = memberMapper.insertMember(member.getMembername(), member.getNickname(), md5password,
+        member.getEmail(), member.getSex(), member.getAge(), member.getAddress(), member.getQuestion(),
+        member.getAnswer());
     if(resID == 0){
       return ServerResponse.createByErrorMessage("创建用户失败");
     }else{

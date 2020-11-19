@@ -18,7 +18,7 @@ public class Book {
 
     private Integer authorid;
 
-    private Integer paagenum;
+    private Integer pagenum;
 
     private BigDecimal saleprice;
 
@@ -82,12 +82,12 @@ public class Book {
         this.authorid = authorid;
     }
 
-    public Integer getPaagenum() {
-        return paagenum;
+    public Integer getpagenum() {
+        return pagenum;
     }
 
-    public void setPaagenum(Integer paagenum) {
-        this.paagenum = paagenum;
+    public void setpagenum(Integer pagenum) {
+        this.pagenum = pagenum;
     }
 
     public BigDecimal getSaleprice() {
