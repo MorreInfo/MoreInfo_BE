@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.fudan.moreinfo.ebook.dao.MemberMapper" >
+  <resultMap id="BaseResultMap" type="cn.edu.fudan.moreinfo.ebook.entity.Member" >
+    <id column="memberID" property="memberid" jdbcType="INTEGER" />
+    <result column="memberName" property="membername" jdbcType="VARCHAR" />
+    <result column="nickName" property="nickname" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="question" property="question" jdbcType="VARCHAR" />
+    <result column="answer" property="answer" jdbcType="VARCHAR" />
+    <result column="favorites" property="favorites" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    memberID, memberName, nickName, password, email, sex, age, address, question, answer,
+    favorites, createTime, updateTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from member
+    where memberID = #{memberid,jdbcType=INTEGER}
+  </select>
+  <select id="selectByEmail" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from member
+    where email = #{memberid,jdbcType=CHAR}
+  </select>
+  <select id="selectByMembername" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from member
+    where memberName = #{memberName,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from member
+    where memberID = #{memberid,jdbcType=INTEGER}
+  </delete>
+  <select id="checkAnswer" resultType="int" parameterType="map">
+    select
+    count(1)
+    from member
+    where memberName = #{membername}
+    and question = #{question}
+    and answer = #{answer}
+  </select>
+  <insert id="insert" parameterType="cn.edu.fudan.moreinfo.ebook.entity.Member" >
+    insert into member (memberID, memberName, nickName, 
+      password, email, sex,
+      age, address, question, 
+      answer, favorites, createTime, 
+      updateTime)
+    values (#{memberid,jdbcType=INTEGER}, #{membername,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER},
+      #{age,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{question,jdbcType=VARCHAR}, 
+      #{answer,jdbcType=VARCHAR}, #{favorites,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertMember" parameterType="map">
+    insert into member(memberName, nickName,password, email, sex, age, address, question, answer)
+    values (#{membername}, #{nickname}, #{password}, #{email}, #{sex}, #{age}, #{address}, #{question}, #{answer})
+  </insert>
+  <update id="updatePasswordByMembername" parameterType="map">
+    update member
+    set password = #{password}, updateTime = now()
+    where memberName = #{membername}
+  </update>
+  <insert id="insertSelective" parameterType="cn.edu.fudan.moreinfo.ebook.entity.Member" >
+    insert into member
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="memberid != null" >
+        memberID,
+      </if>
+      <if test="membername != null" >
+        memberName,
+      </if>
+      <if test="nickname != null" >
+        nickName,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="question != null" >
+        question,
+      </if>
+      <if test="answer != null" >
+        answer,
+      </if>
+      <if test="favorites != null" >
+        favorites,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="memberid != null" >
+        #{memberid,jdbcType=INTEGER},
+      </if>
+      <if test="membername != null" >
+        #{membername,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="question != null" >
+        #{question,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null" >
+        #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="favorites != null" >
+        #{favorites,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.fudan.moreinfo.ebook.entity.Member" >
+    update member
+    <set >
+      <if test="membername != null" >
+        memberName = #{membername,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        nickName = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="question != null" >
+        question = #{question,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null" >
+        answer = #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="favorites != null" >
+        favorites = #{favorites,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where memberID = #{memberid,jdbcType=INTEGER}
+  </update>
+  <select id="checkPassword" resultType="int" parameterType="map">
+    select
+    count(1)
+    from member
+    where memberName = #{membername}
+    and password = #{password}
+  </select>
+  <select id="checkMembername" resultType="int" parameterType="String">
+    select
+    count(1)
+    from member
+    where membername = #{membername}
+  </select>
+  <select id="checkEmail" resultType="int" parameterType="String">
+    select
+    count(1)
+    from member
+    where email = #{email}
+  </select>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.fudan.moreinfo.ebook.entity.Member" >
+    update member
+    set memberName = #{membername,jdbcType=VARCHAR},
+      nickName = #{nickname,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      age = #{age,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      question = #{question,jdbcType=VARCHAR},
+      answer = #{answer,jdbcType=VARCHAR},
+      favorites = #{favorites,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where memberID = #{memberid,jdbcType=INTEGER}
+  </update>
+
+</mapper>

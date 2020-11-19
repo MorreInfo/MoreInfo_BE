@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.fudan.moreinfo.ebook.dao.BookMapper" >
+  <resultMap id="BaseResultMap" type="cn.edu.fudan.moreinfo.ebook.entity.Book" >
+    <id column="ISBN" property="isbn" jdbcType="CHAR" />
+    <result column="bookName" property="bookname" jdbcType="VARCHAR" />
+    <result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="intruduction" property="intruduction" jdbcType="VARCHAR" />
+    <result column="publicationID" property="publicationid" jdbcType="INTEGER" />
+    <result column="authorID" property="authorid" jdbcType="INTEGER" />
+    <result column="pagenum" property="pagenum" jdbcType="INTEGER" />
+    <result column="salePrice" property="saleprice" jdbcType="DECIMAL" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ISBN, bookName, category, version, intruduction, publicationID, authorID, pagenum,
+    salePrice, createTime, updateTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from book
+    where ISBN = #{isbn,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from book
+    where ISBN = #{isbn,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.fudan.moreinfo.ebook.entity.Book" >
+    insert into book (ISBN, bookName, category, 
+      version, intruduction, publicationID, 
+      authorID, pagenum, salePrice,
+      createTime, updateTime)
+    values (#{isbn,jdbcType=CHAR}, #{bookname,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR}, 
+      #{version,jdbcType=INTEGER}, #{intruduction,jdbcType=VARCHAR}, #{publicationid,jdbcType=INTEGER}, 
+      #{authorid,jdbcType=INTEGER}, #{pagenum,jdbcType=INTEGER}, #{saleprice,jdbcType=DECIMAL},
+      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertBook" parameterType="map">
+    insert into book(ISBN, bookName, category,
+      version, publicationID,
+      authorID, pagenum, salePrice)
+    values (#{isbn}, #{bookname}, #{category}, #{version}, #{publicationid}, #{authorid},
+    #{pagenum}, #{saleprice})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.fudan.moreinfo.ebook.entity.Book" >
+    insert into book
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="isbn != null" >
+        ISBN,
+      </if>
+      <if test="bookname != null" >
+        bookName,
+      </if>
+      <if test="category != null" >
+        category,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="intruduction != null" >
+        intruduction,
+      </if>
+      <if test="publicationid != null" >
+        publicationID,
+      </if>
+      <if test="authorid != null" >
+        authorID,
+      </if>
+      <if test="pagenum != null" >
+        pagenum,
+      </if>
+      <if test="saleprice != null" >
+        salePrice,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="isbn != null" >
+        #{isbn,jdbcType=CHAR},
+      </if>
+      <if test="bookname != null" >
+        #{bookname,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null" >
+        #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="intruduction != null" >
+        #{intruduction,jdbcType=VARCHAR},
+      </if>
+      <if test="publicationid != null" >
+        #{publicationid,jdbcType=INTEGER},
+      </if>
+      <if test="authorid != null" >
+        #{authorid,jdbcType=INTEGER},
+      </if>
+      <if test="pagenum != null" >
+        #{pagenum,jdbcType=INTEGER},
+      </if>
+      <if test="saleprice != null" >
+        #{saleprice,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.fudan.moreinfo.ebook.entity.Book" >
+    update book
+    <set >
+      <if test="bookname != null" >
+        bookName = #{bookname,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null" >
+        category = #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="intruduction != null" >
+        intruduction = #{intruduction,jdbcType=VARCHAR},
+      </if>
+      <if test="publicationid != null" >
+        publicationID = #{publicationid,jdbcType=INTEGER},
+      </if>
+      <if test="authorid != null" >
+        authorID = #{authorid,jdbcType=INTEGER},
+      </if>
+      <if test="pagenum != null" >
+        pagenum = #{pagenum,jdbcType=INTEGER},
+      </if>
+      <if test="saleprice != null" >
+        salePrice = #{saleprice,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ISBN = #{isbn,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.fudan.moreinfo.ebook.entity.Book" >
+    update book
+    set bookName = #{bookname,jdbcType=VARCHAR},
+      category = #{category,jdbcType=VARCHAR},
+      version = #{version,jdbcType=INTEGER},
+      intruduction = #{intruduction,jdbcType=VARCHAR},
+      publicationID = #{publicationid,jdbcType=INTEGER},
+      authorID = #{authorid,jdbcType=INTEGER},
+      pagenum = #{pagenum,jdbcType=INTEGER},
+      salePrice = #{saleprice,jdbcType=DECIMAL},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where ISBN = #{isbn,jdbcType=CHAR}
+  </update>
+  <select id="checkISBN" parameterType="String" resultType="java.lang.Integer">
+    select
+    count(*)
+    from book
+    where ISBN = #{isbn}
+  </select>
+  <select id="checkBookname" parameterType="String" resultType="java.lang.Integer">
+    select
+    count(*)
+    from book
+    where bookName = #{bookname}
+  </select>
+  <select id="selectByBookname" resultType="java.lang.String" parameterType="java.lang.String">
+    select
+    isbn
+    from book
+    where bookName = #{bookname}
+  </select>
+</mapper>
