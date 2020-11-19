@@ -2,7 +2,7 @@ package cn.edu.fudan.moreinfo.ebook.service.impl;
 
 import cn.edu.fudan.moreinfo.ebook.common.ServerResponse;
 import cn.edu.fudan.moreinfo.ebook.common.TokenCache;
-import cn.edu.fudan.moreinfo.ebook.controller.Const;
+import cn.edu.fudan.moreinfo.ebook.common.Const;
 import cn.edu.fudan.moreinfo.ebook.util.MD5Utils;
 import cn.edu.fudan.moreinfo.ebook.dao.MemberMapper;
 import cn.edu.fudan.moreinfo.ebook.entity.Member;
@@ -10,11 +10,7 @@ import cn.edu.fudan.moreinfo.ebook.service.MemberService;
 import com.mysql.cj.util.StringUtils;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.MethodInvocationRecorder.Recorded.ToCollectionConverter;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Service("memberService")
 public class MemberServiceImpl implements MemberService{

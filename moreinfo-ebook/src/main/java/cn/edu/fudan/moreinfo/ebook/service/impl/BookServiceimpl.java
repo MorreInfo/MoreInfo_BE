@@ -1,7 +1,7 @@
 package cn.edu.fudan.moreinfo.ebook.service.impl;
 
 import cn.edu.fudan.moreinfo.ebook.common.ServerResponse;
-import cn.edu.fudan.moreinfo.ebook.controller.Const;
+import cn.edu.fudan.moreinfo.ebook.common.Const;
 import cn.edu.fudan.moreinfo.ebook.dao.BookMapper;
 import cn.edu.fudan.moreinfo.ebook.entity.Book;
 import cn.edu.fudan.moreinfo.ebook.service.BookService;

@@ -1,9 +1,9 @@
 package cn.edu.fudan.moreinfo.ebook.controller;
 
+import cn.edu.fudan.moreinfo.ebook.common.Const;
 import cn.edu.fudan.moreinfo.ebook.common.ServerResponse;
 import cn.edu.fudan.moreinfo.ebook.entity.Book;
 import cn.edu.fudan.moreinfo.ebook.service.BookService;
-import com.mysql.cj.util.StringUtils;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
