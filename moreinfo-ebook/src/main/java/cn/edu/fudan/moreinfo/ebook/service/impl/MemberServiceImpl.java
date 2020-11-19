@@ -2,7 +2,7 @@ package cn.edu.fudan.moreinfo.ebook.service.impl;
 
 import cn.edu.fudan.moreinfo.ebook.common.ServerResponse;
 import cn.edu.fudan.moreinfo.ebook.common.TokenCache;
-import cn.edu.fudan.moreinfo.ebook.controller.Const;
+import cn.edu.fudan.moreinfo.ebook.common.Const;
 import cn.edu.fudan.moreinfo.ebook.util.MD5Utils;
 import cn.edu.fudan.moreinfo.ebook.dao.MemberMapper;
 import cn.edu.fudan.moreinfo.ebook.entity.Member;
@@ -10,11 +10,7 @@ import cn.edu.fudan.moreinfo.ebook.service.MemberService;
 import com.mysql.cj.util.StringUtils;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.MethodInvocationRecorder.Recorded.ToCollectionConverter;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Service("memberService")
 public class MemberServiceImpl implements MemberService{
@@ -68,7 +64,8 @@ public class MemberServiceImpl implements MemberService{
     if(member == null){
       return ServerResponse.createByErrorMessage("用户名不存在");
     }
-    if(member.getPasswrod() != MD5Utils.MD5EncodeUtf8(password)){
+    String md5Password = MD5Utils.MD5EncodeUtf8(password);
+    if(!member.getpassword().equals(md5Password)){
       return ServerResponse.createByErrorMessage("密码错误");
     }
     return ServerResponse.createBySuccess("登录成功",member);
@@ -84,11 +81,12 @@ public class MemberServiceImpl implements MemberService{
     if(!validResponse.isSuccess()){
       return validResponse;
     }
-
     //MD5加密
-     member.setPasswrod(MD5Utils.MD5EncodeUtf8(member.getPasswrod()));
+    String md5password = MD5Utils.MD5EncodeUtf8(member.getpassword());
 
-    int resID = memberMapper.insert(member);
+    int resID = memberMapper.insertMember(member.getMembername(), member.getNickname(), md5password,
+        member.getEmail(), member.getSex(), member.getAge(), member.getAddress(), member.getQuestion(),
+        member.getAnswer());
     if(resID == 0){
       return ServerResponse.createByErrorMessage("创建用户失败");
     }else{
@@ -97,15 +95,15 @@ public class MemberServiceImpl implements MemberService{
   }
 
   public ServerResponse<String> checkVaild(String str, String type){
-    if(StringUtils.isNullOrEmpty(type)){
+    if(!StringUtils.isNullOrEmpty(type)){
       if(Const.USERNAME.equals(type)){
-        Member member = memberMapper.selectByMembername(str);
-        if(member != null){
+        int requestCount = memberMapper.checkMembername(str);
+        if(requestCount != 0){
           return ServerResponse.createByErrorMessage("用户名已存在");
         }
       }else if(Const.EMAIL.equals(type)){
-        Member member = memberMapper.selectByEmail(str);
-        if(member != null){
+        int requestCount = memberMapper.checkEmail(str);
+        if(requestCount != 0){
           return ServerResponse.createByErrorMessage("邮箱已存在");
         }
       }
@@ -117,8 +115,11 @@ public class MemberServiceImpl implements MemberService{
 
   public ServerResponse<String> selecrtQuestion(String membername){
     //先检查用户名是否合法
+    if(StringUtils.isEmptyOrWhitespaceOnly(membername)){
+      return ServerResponse.createByErrorMessage("用户名为空");
+    }
     ServerResponse<String> validResponse = this.checkVaild(membername, Const.USERNAME);
-    if(!validResponse.isSuccess()){
+    if(validResponse.isSuccess()){
       //用户不存在
       return ServerResponse.createByErrorMessage("用户不存在");
     }
@@ -146,7 +147,7 @@ public class MemberServiceImpl implements MemberService{
       return ServerResponse.createByErrorMessage("参数错误，token需要传递");
     }
     ServerResponse validResponse = this.checkVaild(membername,Const.USERNAME);
-    if(!validResponse.isSuccess()){
+    if(validResponse.isSuccess()){
       //用户不存在
       return ServerResponse.createByErrorMessage("用户不存在");
     }
@@ -175,7 +176,7 @@ public class MemberServiceImpl implements MemberService{
       return ServerResponse.createByErrorMessage("旧密码错误");
     }
 
-    member.setPasswrod(MD5Utils.MD5EncodeUtf8(passwordNew));
+    member.setpassword(MD5Utils.MD5EncodeUtf8(passwordNew));
     int updateCount = memberMapper.updateByPrimaryKeySelective(member);
     if(updateCount > 0){
       return ServerResponse.createBySuccessMessage("更新密码成功");

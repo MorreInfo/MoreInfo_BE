@@ -9,7 +9,7 @@ public class Member {
 
     private String nickname;
 
-    private String passwrod;
+    private String password;
 
     private String email;
 
@@ -53,12 +53,12 @@ public class Member {
         this.nickname = nickname == null ? null : nickname.trim();
     }
 
-    public String getPasswrod() {
-        return passwrod;
+    public String getpassword() {
+        return password;
     }
 
-    public void setPasswrod(String passwrod) {
-        this.passwrod = passwrod == null ? null : passwrod.trim();
+    public void setpassword(String password) {
+        this.password = password == null ? null : password.trim();
     }
 
     public String getEmail() {

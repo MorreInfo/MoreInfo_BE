@@ -5,7 +5,7 @@
     <id column="memberID" property="memberid" jdbcType="INTEGER" />
     <result column="memberName" property="membername" jdbcType="VARCHAR" />
     <result column="nickName" property="nickname" jdbcType="VARCHAR" />
-    <result column="passwrod" property="passwrod" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="sex" property="sex" jdbcType="INTEGER" />
     <result column="age" property="age" jdbcType="INTEGER" />
@@ -17,7 +17,7 @@
     <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    memberID, memberName, nickName, passwrod, email, sex, age, address, question, answer, 
+    memberID, memberName, nickName, password, email, sex, age, address, question, answer,
     favorites, createTime, updateTime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -52,15 +52,19 @@
   </select>
   <insert id="insert" parameterType="cn.edu.fudan.moreinfo.ebook.entity.Member" >
     insert into member (memberID, memberName, nickName, 
-      passwrod, email, sex, 
+      password, email, sex,
       age, address, question, 
       answer, favorites, createTime, 
       updateTime)
     values (#{memberid,jdbcType=INTEGER}, #{membername,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
-      #{passwrod,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
+      #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER},
       #{age,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{question,jdbcType=VARCHAR}, 
       #{answer,jdbcType=VARCHAR}, #{favorites,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
       #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertMember" parameterType="map">
+    insert into member(memberName, nickName,password, email, sex, age, address, question, answer)
+    values (#{membername}, #{nickname}, #{password}, #{email}, #{sex}, #{age}, #{address}, #{question}, #{answer})
   </insert>
   <update id="updatePasswordByMembername" parameterType="map">
     update member
@@ -79,8 +83,8 @@
       <if test="nickname != null" >
         nickName,
       </if>
-      <if test="passwrod != null" >
-        passwrod,
+      <if test="password != null" >
+        password,
       </if>
       <if test="email != null" >
         email,
@@ -120,8 +124,8 @@
       <if test="nickname != null" >
         #{nickname,jdbcType=VARCHAR},
       </if>
-      <if test="passwrod != null" >
-        #{passwrod,jdbcType=VARCHAR},
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
       </if>
       <if test="email != null" >
         #{email,jdbcType=VARCHAR},
@@ -161,8 +165,8 @@
       <if test="nickname != null" >
         nickName = #{nickname,jdbcType=VARCHAR},
       </if>
-      <if test="passwrod != null" >
-        passwrod = #{passwrod,jdbcType=VARCHAR},
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
       </if>
       <if test="email != null" >
         email = #{email,jdbcType=VARCHAR},
@@ -201,11 +205,23 @@
     where memberName = #{membername}
     and password = #{password}
   </select>
+  <select id="checkMembername" resultType="int" parameterType="String">
+    select
+    count(1)
+    from member
+    where membername = #{membername}
+  </select>
+  <select id="checkEmail" resultType="int" parameterType="String">
+    select
+    count(1)
+    from member
+    where email = #{email}
+  </select>
   <update id="updateByPrimaryKey" parameterType="cn.edu.fudan.moreinfo.ebook.entity.Member" >
     update member
     set memberName = #{membername,jdbcType=VARCHAR},
       nickName = #{nickname,jdbcType=VARCHAR},
-      passwrod = #{passwrod,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=INTEGER},
       age = #{age,jdbcType=INTEGER},
