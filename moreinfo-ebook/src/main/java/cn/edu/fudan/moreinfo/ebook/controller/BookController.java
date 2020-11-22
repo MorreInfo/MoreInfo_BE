@@ -4,6 +4,7 @@ import cn.edu.fudan.moreinfo.ebook.common.Const;
 import cn.edu.fudan.moreinfo.ebook.common.ServerResponse;
 import cn.edu.fudan.moreinfo.ebook.entity.Book;
 import cn.edu.fudan.moreinfo.ebook.service.BookService;
+import io.swagger.annotations.Api;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,11 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+@Api(tags = "图书服务")
 @RestController
 @RequestMapping("/book")
 public class BookController {
   @Autowired
   private BookService bookService;
+
 
   @RequestMapping(value="add_book_info", method = RequestMethod.POST)
   public ServerResponse<String> addBookInfo(@RequestBody Book book){

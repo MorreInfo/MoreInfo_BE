@@ -73,11 +73,17 @@
             <groupId>com.github.ulisesbocchio</groupId>
             <artifactId>jasypt-spring-boot-starter</artifactId>
         </dependency>
+        <!-- swagger -->
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>RELEASE</version>
-            <scope>test</scope>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <!-- swagger-ui -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.9.2</version>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
@@ -85,6 +91,7 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>

@@ -4,6 +4,7 @@ import cn.edu.fudan.moreinfo.ebook.common.Const;
 import cn.edu.fudan.moreinfo.ebook.common.ServerResponse;
 import cn.edu.fudan.moreinfo.ebook.entity.Member;
 import cn.edu.fudan.moreinfo.ebook.service.MemberService;
+import io.swagger.annotations.Api;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+@Api("成员管理")
 @RestController
 @RequestMapping("/user/")
 public class MemberController {
