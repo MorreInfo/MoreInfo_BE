@@ -10,6 +10,7 @@ import cn.edu.fudan.moreinfo.ebook.service.MemberService;
 import com.mysql.cj.util.StringUtils;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service("memberService")
@@ -19,6 +20,7 @@ public class MemberServiceImpl implements MemberService{
   private MemberMapper memberMapper;
 
   @Override
+  @Cacheable(value = "getByMemberID", key = "'getByMemberID'+#memberID")
   public Member getByMemeberID(Integer memberID) {
     return memberMapper.selectByPrimaryKey(memberID);
   }
@@ -94,6 +96,7 @@ public class MemberServiceImpl implements MemberService{
     }
   }
 
+  @Cacheable(value = "checkValid", key = "#str+#type")
   public ServerResponse<String> checkVaild(String str, String type){
     if(!StringUtils.isNullOrEmpty(type)){
       if(Const.USERNAME.equals(type)){

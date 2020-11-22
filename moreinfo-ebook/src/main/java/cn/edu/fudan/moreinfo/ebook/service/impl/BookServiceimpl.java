@@ -8,6 +8,7 @@ import cn.edu.fudan.moreinfo.ebook.service.BookService;
 import com.mysql.cj.util.StringUtils;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 
@@ -28,6 +29,7 @@ public class BookServiceimpl implements BookService {
   }
 
   @Override
+  @Cacheable(value = "getByISBN", key = "'getByISBN'+#ISBN")
   public Book getByISBN(String ISBN) {
     return bookMapper.selectByPrimaryKey(ISBN);
   }
@@ -64,6 +66,7 @@ public class BookServiceimpl implements BookService {
   }
 
   @Override
+  @Cacheable(value = "checkValid1", key = "'checkValid1'+#str+#type")
   public ServerResponse<String> checkVaild(String str, String type){
     if(StringUtils.isEmptyOrWhitespaceOnly(str)){
       return ServerResponse.createByErrorMessage("传入参数错误");
@@ -84,6 +87,7 @@ public class BookServiceimpl implements BookService {
   }
 
   @Override
+  @Cacheable(value = "checkLegal", key = "'checkLegal'+#str+#type")
   public ServerResponse<String> checkLegal(String str, String type){
     if(StringUtils.isEmptyOrWhitespaceOnly(str)){
       return ServerResponse.createByErrorMessage("传入参数错误");
@@ -111,6 +115,7 @@ public class BookServiceimpl implements BookService {
   }
 
   @Override
+  @Cacheable(value = "selectBookByBookname", key = "'selectBookByBookname'+#bookName")
   public ServerResponse<List<String>> selectBookByBookname(String bookName) {
     List<String> list = bookMapper.selectByBookname(bookName);
     if(list.isEmpty()){

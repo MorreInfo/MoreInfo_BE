@@ -6,9 +6,11 @@ import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.cache.annotation.EnableCaching;
 
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
+@EnableCaching
 @MapperScan(basePackages = {"cn.edu.fudan.moreinfo.ebook.controller", "cn.edu.fudan.moreinfo.ebook.dao"})
 public class MoreInfoEbookApplication {
 
