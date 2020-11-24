@@ -7,8 +7,8 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.cache.annotation.EnableCaching;
 
 
-//@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
-@SpringBootApplication
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
+//@SpringBootApplication
 @EnableCaching
 @MapperScan(basePackages = {"cn.edu.fudan.moreinfo.ebook.controller", "cn.edu.fudan.moreinfo.ebook.dao"})
 public class MoreInfoEbookApplication {
